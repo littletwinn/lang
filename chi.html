@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi-Book | Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-bg: #F9F7F5; /* สีพื้นหลังโทนอุ่นนวลๆ */
+            --text-color: #43302E;
+            --accent-color: #FFF2EB;
+            --shadow: 0 10px 30px rgba(67, 48, 46, 0.08);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: var(--primary-bg);
+            margin: 0;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* HEADER */
+        header {
+            margin-top: 60px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        /* HOME BUTTON - ปรับให้ดูพรีเมียมขึ้น */
+        .home-btn {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            text-decoration: none;
+            background: white;
+            color: var(--text-color);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px);
+            background: var(--accent-color);
+        }
+
+        /* BOOK GRID - ใช้ Flex wrap เพื่อให้รองรับมือถือ */
+        .book-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1000px;
+            padding: 20px;
+        }
+
+        /* BOOK ITEM */
+        .book-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .book-wrapper {
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .book {
+            width: 180px;
+            height: auto;
+            border-radius: 8px 16px 16px 8px; /* โค้งมนแบบสันหนังสือ */
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            display: block;
+        }
+
+        /* เอฟเฟกต์ตอน Hover ให้ดูเหมือนหนังสือลอยขึ้นมา */
+        .book-link:hover .book {
+            transform: rotateY(-10deg) scale(1.05);
+            box-shadow: 20px 20px 30px rgba(0,0,0,0.15);
+        }
+
+        .book-title {
+            margin-top: 15px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .book-link:hover .book-title {
+            opacity: 1;
+            color: #000;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .book-container { gap: 20px; }
+            .book { width: 140px; }
+            header { margin-top: 80px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="index.html" class="home-btn" title="Go Home">🏠</a>
+
+    <header>
+        <h1>My Library</h1>
+        <p>Select a book to start your lesson</p>
+    </header>
+
+    <div class="book-container">
+
+        <a href="chi-lessons.html?book=1" class="book-link">
+            <div class="book-wrapper">
+                <img src="book1.jpg" alt="Book 1" class="book">
+            </div>
+            <span class="book-title">Lesson 01</span>
+        </a>
+
+        <a href="chi-lessons.html?book=2" class="book-link">
+            <div class="book-wrapper">
+                <img src="book2.jpg" alt="Book 2" class="book">
+            </div>
+            <span class="book-title">Lesson 02</span>
+        </a>
+
+        <a href="chi-lessons.html?book=3" class="book-link">
+            <div class="book-wrapper">
+                <img src="book3.jpg" alt="Book 3" class="book">
+            </div>
+            <span class="book-title">Lesson 03</span>
+        </a>
+
+    </div>
+
+</body>
+</html>

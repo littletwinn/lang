@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Language App</title>
+
+<!-- FONT (Mono) -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'IBM Plex Mono', monospace;
+    background-color: #fffefe;
+}
+
+/* Greeting */
+.greeting {
+    position: absolute;
+    top: 60px;
+    left: 80px;
+    color: #2f4de0;
+    font-size: 40px;
+    line-height: 1.5;
+}
+
+/* Button */
+.center-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 160px;
+}
+
+.center-btn button {
+    background-color: #ff8c42;
+    color: white;
+    border: none;
+    padding: 18px 40px;
+    border-radius: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.center-btn button:hover {
+    transform: scale(1.05);
+}
+
+/* Cards */
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 80px;
+    padding: 0 40px;
+}
+
+.card {
+    width: 280px;
+    height: 200px;
+    background-color: #b1dbff;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .greeting {
+        position: static;
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .center-btn {
+        margin-top: 40px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Greeting -->
+<div class="greeting">
+    &lt;Hello&gt;<br>
+    &lt;你好&gt;<br>
+    &lt;Hola&gt;
+</div>
+
+<!-- Button -->
+<div class="center-btn">
+    <button>CHOOSE LANGUAGE</button>
+</div>
+
+<!-- Language Cards -->
+<div class="container">
+    <div class="card" onclick="goTo('chi.html')"></div>
+
+</div>
+
+<script>
+function goTo(page) {
+    window.location.href = page;
+}
+</script>
+
+</body>
+</html>

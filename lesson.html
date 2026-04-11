@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+
+<style>
+body {
+    font-family: 'IBM Plex Mono', monospace;
+    background: #FFFDEB;
+    margin: 0;
+    text-align: center;
+    color: #402615;
+}
+
+/* NAV */
+.top-bar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.btn {
+    background: #ffffff;
+    padding: 10px 16px;
+    margin-left: 10px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #402615;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.05); /* ใช้เงาแทนขอบ */
+}
+
+/* GRID */
+.list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.vocab-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px 10px;
+    border: none; /* เอาขอบออก */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.vocab-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.card-cn { font-size: 24px; font-weight: bold; }
+.card-pinyin { font-size: 13px; color: #a0a0a0; }
+.card-th {
+    font-size: 16px;
+    background: #fdffc6;
+    padding: 3px 12px;
+    border-radius: 20px;
+}
+
+/* TITLE */
+.title { margin-top: 100px; color: #43302e; font-size: 32px; }
+
+/* TOGGLE */
+.toggle-wrapper {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #FF9149;
+    border-radius: 34px;
+    top: 0; left: 0; right: 0; bottom: 0;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+input:checked + .slider { background-color: #FF9149; }
+input:checked + .slider:before { transform: translateX(24px); }
+
+/* FLASHCARD AREA */
+.flash-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* ระยะห่างระหว่างปุ่มกับการ์ด */
+    margin: 20px auto;
+    max-width: 650px;
+}
+
+.word {
+    background: #ffffff;
+    padding: 40px;
+    width: 300px;
+    height: 250px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: none;
+}
+
+/* ปุ่มข้างการ์ด */
+.side-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.side-buttons button {
+    padding: 10px;
+    border-radius: 12px;
+    background: #fff1ba;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    color: #43302e;
+    width: 80px;
+}
+
+/* GENERAL BUTTON */
+button {
+    background: #FF9149;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 5px;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+    <a id="backBtn" class="btn">↩</a>
+    <a href="index.html" class="btn">🏠</a>
+</div>
+
+<h1 class="title" id="title"></h1>
+
+<div class="toggle-wrapper">
+    <span style="font-size: 14px; opacity: 0.4;">LIST</span>
+    <label class="switch">
+        <input type="checkbox" id="modeToggle" onchange="toggleView()">
+        <span class="slider"></span>
+    </label>
+    <span style="font-size: 14px; opacity: 0.4;">FLASH</span>
+</div>
+
+<div id="content"></div>
+<div id="navLesson" style="margin-top: 30px;"></div>
+
+
+<script src="data.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const book = params.get("book");
+const lesson = parseInt(params.get("lesson"));
+const vocab = data[book]?.[lesson] || [];
+const content = document.getElementById("content");
+
+// ตัดเหลือแค่ตัวเลข
+document.getElementById("title").innerText = `${book} - ${lesson}`;
+
+function showList() {
+    if (vocab.length === 0) {
+        content.innerHTML = "<p>Nothing here...</p>";
+        return;
+    }
+    let html = `<div class="list-grid">`;
+    vocab.forEach(word => {
+        html += `
+        <div class="vocab-card">
+            <div class="card-cn">${word.cn}</div>
+            <div class="card-pinyin">${word.pinyin}</div>
+            <div class="card-th">${word.th}</div>
+        </div>`;
+    });
+    html += `</div>`;
+    content.innerHTML = html;
+}
+
+let mode = "cn-to-th";
+let queue = [];
+let skipped = [];
+let currentWord = null;
+
+function showFlashcard() {
+    if (vocab.length === 0) {
+        content.innerHTML = "ไม่มีข้อมูล";
+        return;
+    }
+    queue = [...vocab].sort(() => Math.random() - 0.5);
+    skipped = [];
+    nextCard();
+}
+
+function nextCard() {
+    if (queue.length === 0) {
+        if (skipped.length > 0) {
+            queue = [...skipped].sort(() => Math.random() - 0.5);
+            skipped = [];
+        } else {
+            queue = [...vocab].sort(() => Math.random() - 0.5);
+        }
+    }
+    currentWord = queue.shift();
+    renderCard();
+}
+
+function renderCard() {
+    let question = mode === "cn-to-th" ? currentWord.cn : currentWord.th;
+    let answerText = mode === "cn-to-th" ? currentWord.th : currentWord.cn;
+
+    content.innerHTML = `
+    <div class="flash-container">
+        <div class="side-buttons">
+            <button onclick="toggleMode()">🔄 Mode</button>
+            <button onclick="showAll()" style="background:#ffdede;">Show All</button>
+        </div>
+
+        <div class="word">
+            <b style="font-size: 40px;">${question}</b>
+            <div id="pinyin" style="display:none; font-size:18px; margin-top:15px; color:#888;">${currentWord.pinyin}</div>
+            <div id="answer" style="display:none; font-size:22px; margin-top:10px; background:#feffad; padding:5px 15px; border-radius:15px;">${answerText}</div>
+        </div>
+
+        <div class="side-buttons">
+            <button onclick="showPinyin()">Pinyin</button>
+            <button onclick="showAnswer()">Meaning</button>
+            <button onclick="nextCard()" style="background:#feffad;">Next</button>
+            <button onclick="skipCard()">Skip</button>
+        </div>
+    </div>`;
+}
+
+function showAll() {
+    showPinyin();
+    showAnswer();
+}
+
+function skipCard() { skipped.push(currentWord); nextCard(); }
+function toggleMode() { mode = mode === "cn-to-th" ? "th-to-cn" : "cn-to-th"; renderCard(); }
+function showPinyin() { document.getElementById("pinyin").style.display = "block"; }
+function showAnswer() { document.getElementById("answer").style.display = "block"; }
+
+function toggleView() {
+    const toggle = document.getElementById("modeToggle");
+    if (toggle.checked) showFlashcard();
+    else showList();
+}
+
+// Navigation
+if (data[book]) {
+    const lessons = Object.keys(data[book]).map(Number);
+    const maxLesson = Math.max(...lessons);
+    let navHTML = "";
+    if (lesson > 1) navHTML += `<a href="lesson.html?book=${book}&lesson=${lesson-1}"><button>last⬅️</button></a>`;
+    if (lesson < maxLesson) navHTML += `<a href="lesson.html?book=${book}&lesson=${lesson+1}"><button>next➡️</button></a>`;
+    document.getElementById("navLesson").innerHTML = navHTML;
+}
+
+const backBtn = document.getElementById("backBtn");
+backBtn.href = book ? `chi-lessons.html?book=${book}` : "chi.html";
+
+document.getElementById("modeToggle").checked = false;
+showList();
+</script>
+</body>
+</html>
