@@ -9,7 +9,7 @@
 <style>
 body {
     font-family: 'IBM Plex Mono', monospace;
-    background: #FFFDEB;
+    background: #f2f9ff;
     margin: 0;
     text-align: center;
     color: #402615;
@@ -66,7 +66,7 @@ body {
 .card-pinyin { font-size: 13px; color: #a0a0a0; }
 .card-th {
     font-size: 16px;
-    background: #fdffc6;
+    background: #fdffcb;
     padding: 3px 12px;
     border-radius: 20px;
 }
@@ -140,6 +140,7 @@ input:checked + .slider:before { transform: translateX(24px); }
     border: none;
 }
 
+
 /* ปุ่มข้างการ์ด */
 .side-buttons {
     display: flex;
@@ -168,6 +169,20 @@ button {
     margin: 5px;
     color: white;
 }
+
+.nav-left {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.bottom-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
 </style>
 </head>
 <body>
@@ -189,7 +204,9 @@ button {
 </div>
 
 <div id="content"></div>
-<div id="navLesson" style="margin-top: 30px;"></div>
+<div id="navLesson" class="nav-left"></div>
+
+
 
 
 <script src="data.js"></script>
@@ -202,6 +219,7 @@ const content = document.getElementById("content");
 
 // ตัดเหลือแค่ตัวเลข
 document.getElementById("title").innerText = `${book} - ${lesson}`;
+
 
 function showList() {
     if (vocab.length === 0) {
@@ -223,27 +241,17 @@ function showList() {
 
 let mode = "cn-to-th";
 let queue = [];
-let skipped = [];
 let currentWord = null;
 
 function showFlashcard() {
-    if (vocab.length === 0) {
-        content.innerHTML = "ไม่มีข้อมูล";
-        return;
-    }
     queue = [...vocab].sort(() => Math.random() - 0.5);
-    skipped = [];
     nextCard();
 }
 
 function nextCard() {
     if (queue.length === 0) {
-        if (skipped.length > 0) {
-            queue = [...skipped].sort(() => Math.random() - 0.5);
-            skipped = [];
-        } else {
-            queue = [...vocab].sort(() => Math.random() - 0.5);
-        }
+        content.innerHTML = "<h2>Done!</h2>";
+        return;
     }
     currentWord = queue.shift();
     renderCard();
@@ -254,33 +262,47 @@ function renderCard() {
     let answerText = mode === "cn-to-th" ? currentWord.th : currentWord.cn;
 
     content.innerHTML = `
-    <div class="flash-container">
-        <div class="side-buttons">
-            <button onclick="toggleMode()">🔄 Mode</button>
-            <button onclick="showAll()" style="background:#ffdede;">Show All</button>
+<div class="flash-container">
+    <div class="side-buttons">
+        <button onclick="toggleMode()">🔄 Mode</button>
+        <button onclick="showAll()" style="background:#ffdede;">Show All</button>
+    </div>
+
+    <div class="word">
+        <b style="font-size: 40px;">${question}</b>
+
+        <div id="pinyin" style="display:none; font-size:18px; margin-top:15px; color:#888;">
+            ${currentWord.pinyin}
         </div>
 
-        <div class="word">
-            <b style="font-size: 40px;">${question}</b>
-            <div id="pinyin" style="display:none; font-size:18px; margin-top:15px; color:#888;">${currentWord.pinyin}</div>
-            <div id="answer" style="display:none; font-size:22px; margin-top:10px; background:#feffad; padding:5px 15px; border-radius:15px;">${answerText}</div>
+        <div id="answer" style="display:none; font-size:22px; margin-top:10px; background:#feffad; padding:5px 15px; border-radius:15px;">
+            ${answerText}
         </div>
+
+        <!-- 👇 ปุ่มใหม่อยู่ใต้การ์ด -->
+        <div class="bottom-buttons">
+            <button onclick="nextCard()">Next</button>
+            <button onclick="skipCard()" style="background:#EEEEEE; color:#605B51;">Skip</button>
+        </div>
+    </div>
 
         <div class="side-buttons">
             <button onclick="showPinyin()">Pinyin</button>
             <button onclick="showAnswer()">Meaning</button>
-            <button onclick="nextCard()" style="background:#feffad;">Next</button>
-            <button onclick="skipCard()">Skip</button>
         </div>
-    </div>`;
+    </div>
+    `;
 }
 
 function showAll() {
     showPinyin();
     showAnswer();
 }
+function skipCard() {
+    queue.push(currentWord); // 👈 ย้ายไปท้ายคิว
+    nextCard();
+}
 
-function skipCard() { skipped.push(currentWord); nextCard(); }
 function toggleMode() { mode = mode === "cn-to-th" ? "th-to-cn" : "cn-to-th"; renderCard(); }
 function showPinyin() { document.getElementById("pinyin").style.display = "block"; }
 function showAnswer() { document.getElementById("answer").style.display = "block"; }
@@ -295,9 +317,17 @@ function toggleView() {
 if (data[book]) {
     const lessons = Object.keys(data[book]).map(Number);
     const maxLesson = Math.max(...lessons);
+
     let navHTML = "";
-    if (lesson > 1) navHTML += `<a href="lesson.html?book=${book}&lesson=${lesson-1}"><button>last⬅️</button></a>`;
-    if (lesson < maxLesson) navHTML += `<a href="lesson.html?book=${book}&lesson=${lesson+1}"><button>next➡️</button></a>`;
+
+    if (lesson > 1) {
+        navHTML += `<a href="lesson.html?book=${book}&lesson=${lesson-1}" class="btn">⬅️</a>`;
+    }
+
+    if (lesson < maxLesson) {
+        navHTML += `<a href="lesson.html?book=${book}&lesson=${lesson+1}" class="btn">➡️</a>`;
+    }
+
     document.getElementById("navLesson").innerHTML = navHTML;
 }
 
