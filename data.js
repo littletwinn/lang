@@ -886,7 +886,7 @@ const data = {
       { cn: "辛苦", pinyin: "xīnkǔ", th: "ลำบาก" },
       { cn: "麻烦", pinyin: "máfan", th: "รบกวน" },
       { cn: "趟", pinyin: "tàng", th: "เที่ยว/รอบ/ครั้ง (ลักษณนามการเดินทาง)" },
-      { cn: "เข้าไป", pinyin: "jìnqu", th: "เข้าไป" },
+      { cn: "进去", pinyin: "jìnqu", th: "เข้าไป" },
       { cn: "爱人", pinyin: "àiren", th: "คนรัก/คู่สมรส (สามี-ภรรยา)" },
       { cn: "办事", pinyin: "bàn shì", th: "จัดการ" },
       { cn: "慢", pinyin: "màn", th: "ช้า" },
