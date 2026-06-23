@@ -946,6 +946,16 @@ const data = {
       { cn: "好听", pinyin: "hǎotīng", th: "เพราะ (เสียง)" },
       { cn: "还", pinyin: "huán", th: "คืน" },
       { cn: "嘛", pinyin: "ma", th: "ก็นั่นแหละ/สิ (คำลงท้าย)" }
+      { cn: "哈尔滨", pinyin: "Hā’ěrbīn", th: "ฮาร์บิน" },
+      { cn: "海南岛", pinyin: "Hǎinán Dǎo", th: "เกาะไหหลำ" },
+      { cn: "泰山", pinyin: "Tài Shān", th: "ภูเขาไท่ซาน" },
+      { cn: "西安", pinyin: "Xī’ān", th: "ซีอาน" },
+      { cn: "敦煌", pinyin: "Dūnhuáng", th: "ตุนหวง" },
+      { cn: "颐和园", pinyin: "Yíhé Yuán", th: "พระราชวังฤดูร้อน" },
+      { cn: "故宫", pinyin: "Gùgōng", th: "พระราชวังต้องห้าม" },
+      { cn: "长城", pinyin: "Chángchéng", th: "กำแพงเมืองจีน" },
+      { cn: "《黄河》", pinyin: "Huáng Hé", th: "บทเพลงเปียโน แม่น้ำเหลือง" },
+      { cn: "《梁祝》", pinyin: "Liáng-Zhù", th: "บทเพลงไวโอลิน คู่รักผีเสื้อ" }
     ],
     11: [
       { cn: "前天", pinyin: "qiántiān", th: "เมื่อวานซืน" },
