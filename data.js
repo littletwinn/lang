@@ -945,7 +945,7 @@ const data = {
       { cn: "曲", pinyin: "qǔ", th: "บทเพลง" },
       { cn: "好听", pinyin: "hǎotīng", th: "เพราะ (เสียง)" },
       { cn: "还", pinyin: "huán", th: "คืน" },
-      { cn: "嘛", pinyin: "ma", th: "ก็นั่นแหละ/สิ (คำลงท้าย)" }
+      { cn: "嘛", pinyin: "ma", th: "ก็นั่นแหละ/สิ (คำลงท้าย)" },
       { cn: "哈尔滨", pinyin: "Hā’ěrbīn", th: "ฮาร์บิน" },
       { cn: "海南岛", pinyin: "Hǎinán Dǎo", th: "เกาะไหหลำ" },
       { cn: "泰山", pinyin: "Tài Shān", th: "ภูเขาไท่ซาน" },
