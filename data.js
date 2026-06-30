@@ -990,7 +990,10 @@ const data = {
       { cn: "眼睛", pinyin: "yǎnjing", th: "ดวงตา" },
       { cn: "声调", pinyin: "shēngdiào", th: "วรรณยุกต์" },
       { cn: "互相", pinyin: "hùxiāng", th: "ซึ่งกันและกัน" },
-      { cn: "希望", pinyin: "xīwàng", th: "หวังว่า" }
+      { cn: "希望", pinyin: "xīwàng", th: "หวังว่า" },
+      { cn: "丹尼斯", pinyin: "Dānnísī", th: "เดนิส" },
+      { cn: "深圳", pinyin: "Shēnzhèn", th: "เซินเจิ้น" },
+      { cn: "孔子", pinyin: "Kǒngzǐ", th: "ขงจื๊อ" }
     ],
     12: [
       { cn: "护照", pinyin: "hùzhào", th: "พาสปอร์ต" },
